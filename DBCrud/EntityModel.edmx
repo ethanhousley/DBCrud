@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FirstDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Performance">
+          <Key>
+            <PropertyRef Name="Sales" />
+          </Key>
+          <Property Name="Sales" Type="int" Nullable="false" />
+          <Property Name="Shrink" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PrimaryUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="State" Type="char" MaxLength="30" />
+          <Property Name="Zip" Type="int" />
+        </EntityType>
+        <EntityType Name="RevenueTab">
+          <Key>
+            <PropertyRef Name="Revenue" />
+          </Key>
+          <Property Name="Revenue" Type="money" Nullable="false" />
+          <Property Name="TTS" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Performance_PrimaryUser">
+          <End Role="PrimaryUser" Type="Self.PrimaryUser" Multiplicity="1" />
+          <End Role="Performance" Type="Self.Performance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PrimaryUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Performance">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RevenueTab_PrimaryUser">
+          <End Role="PrimaryUser" Type="Self.PrimaryUser" Multiplicity="1" />
+          <End Role="RevenueTab" Type="Self.RevenueTab" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PrimaryUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="RevenueTab">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FirstDatabaseModelStoreContainer">
+          <EntitySet Name="Performance" EntityType="Self.Performance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrimaryUser" EntityType="Self.PrimaryUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RevenueTab" EntityType="Self.RevenueTab" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Performance_PrimaryUser" Association="Self.FK_Performance_PrimaryUser">
+            <End Role="PrimaryUser" EntitySet="PrimaryUser" />
+            <End Role="Performance" EntitySet="Performance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RevenueTab_PrimaryUser" Association="Self.FK_RevenueTab_PrimaryUser">
+            <End Role="PrimaryUser" EntitySet="PrimaryUser" />
+            <End Role="RevenueTab" EntitySet="RevenueTab" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FirstDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Performance">
+          <Key>
+            <PropertyRef Name="Sales" />
+          </Key>
+          <Property Name="Sales" Type="Int32" Nullable="false" />
+          <Property Name="Shrink" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PrimaryUser" Relationship="Self.FK_Performance_PrimaryUser" FromRole="Performance" ToRole="PrimaryUser" />
+        </EntityType>
+        <EntityType Name="PrimaryUser">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="State" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="Zip" Type="Int32" />
+          <NavigationProperty Name="Performances" Relationship="Self.FK_Performance_PrimaryUser" FromRole="PrimaryUser" ToRole="Performance" />
+          <NavigationProperty Name="RevenueTabs" Relationship="Self.FK_RevenueTab_PrimaryUser" FromRole="PrimaryUser" ToRole="RevenueTab" />
+        </EntityType>
+        <EntityType Name="RevenueTab">
+          <Key>
+            <PropertyRef Name="Revenue" />
+          </Key>
+          <Property Name="Revenue" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="TTS" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PrimaryUser" Relationship="Self.FK_RevenueTab_PrimaryUser" FromRole="RevenueTab" ToRole="PrimaryUser" />
+        </EntityType>
+        <Association Name="FK_Performance_PrimaryUser">
+          <End Role="PrimaryUser" Type="Self.PrimaryUser" Multiplicity="1" />
+          <End Role="Performance" Type="Self.Performance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PrimaryUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Performance">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RevenueTab_PrimaryUser">
+          <End Role="PrimaryUser" Type="Self.PrimaryUser" Multiplicity="1" />
+          <End Role="RevenueTab" Type="Self.RevenueTab" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PrimaryUser">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="RevenueTab">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FirstDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Performances" EntityType="Self.Performance" />
+          <EntitySet Name="PrimaryUsers" EntityType="Self.PrimaryUser" />
+          <EntitySet Name="RevenueTabs" EntityType="Self.RevenueTab" />
+          <AssociationSet Name="FK_Performance_PrimaryUser" Association="Self.FK_Performance_PrimaryUser">
+            <End Role="PrimaryUser" EntitySet="PrimaryUsers" />
+            <End Role="Performance" EntitySet="Performances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RevenueTab_PrimaryUser" Association="Self.FK_RevenueTab_PrimaryUser">
+            <End Role="PrimaryUser" EntitySet="PrimaryUsers" />
+            <End Role="RevenueTab" EntitySet="RevenueTabs" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FirstDatabaseModelStoreContainer" CdmEntityContainer="FirstDatabaseEntities">
+          <EntitySetMapping Name="Performances">
+            <EntityTypeMapping TypeName="FirstDatabaseModel.Performance">
+              <MappingFragment StoreEntitySet="Performance">
+                <ScalarProperty Name="Sales" ColumnName="Sales" />
+                <ScalarProperty Name="Shrink" ColumnName="Shrink" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrimaryUsers">
+            <EntityTypeMapping TypeName="FirstDatabaseModel.PrimaryUser">
+              <MappingFragment StoreEntitySet="PrimaryUser">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RevenueTabs">
+            <EntityTypeMapping TypeName="FirstDatabaseModel.RevenueTab">
+              <MappingFragment StoreEntitySet="RevenueTab">
+                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+                <ScalarProperty Name="TTS" ColumnName="TTS" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
