@@ -38,9 +38,10 @@ namespace DBCrud
         {
             using (FirstDatabaseEntities _dbContext = new FirstDatabaseEntities())
             {
-                if (Validation())
-                {
-                    var newUser = new PrimaryUser();
+                var newUser = new PrimaryUser();
+
+                if (newUser.Validation())
+                { 
                     newUser.UserID = Int32.Parse(txtBxUserID.Text);
                     newUser.State = txtBxState.Text;
                     newUser.City = txtBxCity.Text;
@@ -92,7 +93,7 @@ namespace DBCrud
         }
 
 
-        public bool Validation()
+        /*public bool Validation()
         {
 
             if (string.IsNullOrWhiteSpace(txtBxUserID.Text))
@@ -105,6 +106,6 @@ namespace DBCrud
             return true;
             
 
-        }
+        } */
     }
 }

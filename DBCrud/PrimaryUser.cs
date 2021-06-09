@@ -25,8 +25,27 @@ namespace DBCrud
         public string City { get; set; }
         public string State { get; set; }
         public Nullable<int> Zip { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+
+
+        public bool Validation()
+        {
+
+            
+            
+            if (string.IsNullOrWhiteSpace(UserID.ToString()))
+            {
+
+                return false;
+
+            }
+
+            return true;
+
+
+        }
+
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Performance> Performances { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RevenueTab> RevenueTabs { get; set; }
